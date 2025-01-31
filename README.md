@@ -101,11 +101,6 @@ Key scripts in `/scripts/`:
 - Verify environment configurations
 - Ensure all dependencies are installed
 
-## 📞 Contact
-- Team Lead: [Your Name]
-- Slack Channel: #cybersecurity-dashboard
-- Email: team@example.com
-
 ## 📄 License
 [Specify your license, e.g., MIT, Apache 2.0]
 
