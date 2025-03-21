@@ -1,0 +1,20 @@
+{
+  "name": "sec-8k-item-1-05-dashboard",
+  "version": "1.0.0",
+  "description": "Dashboard for visualizing SEC 8-K Item 1.05 security breach disclosures",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "fetch-data": "node sec-data-fetcher.js",
+    "update-dashboard": "node update-dashboard.js"
+  },
+  "dependencies": {
+    "axios": "^1.8.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "groq-sdk": "^0.16.0",
+    "mongodb": "^6.15.0",
+    "mongoose": "^8.12.1"
+  }
+}
