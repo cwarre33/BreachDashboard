@@ -20,13 +20,36 @@
     <div class="dashboard-container">
         <header>
             <h1>SEC 8-K Item 1.05 Security Breach Dashboard</h1>
+            <div class="header-controls">
+                <button id="view-toggle" class="control-button">Toggle View</button>
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Search companies...">
+                </div>
+            </div>
         </header>
         
         <div class="dashboard-grid">
-            <div class="card full-width">
+            <div class="card full-width visualization-card">
                 <h2>3D Security Breach Visualization</h2>
                 <div id="three-container" class="visualization-container">
                     <!-- Three.js canvas will be inserted here -->
+                </div>
+                <div class="visualization-legend">
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: #ff6b6b;"></span>
+                        <span>Recent Breaches (Last 30 Days)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: #4b7bec;"></span>
+                        <span>Older Breaches</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: #2ecc71;"></span>
+                        <span>Selected Company</span>
+                    </div>
+                </div>
+                <div id="visualization-info" class="visualization-info">
+                    <p>Click on a node to see company details. Hover for basic information.</p>
                 </div>
             </div>
             
@@ -53,6 +76,7 @@
     </div>
     
     <script src="data.js" type="module"></script>
-    <script src="server.js" type="module"></script>
+    <script src="three-visualization.js" type="module"></script>
 </body>
 </html>
+
