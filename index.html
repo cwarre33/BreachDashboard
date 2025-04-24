@@ -1,82 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEC 8-K Item 1.05 Security Breach Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
-    <script type="importmap">
-      {
-        "imports": {
-          "three": "https://unpkg.com/three@0.150.1/build/three.module.js",
-          "three/addons/": "https://unpkg.com/three@0.150.1/examples/jsm/"
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cybersecurity Breach Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.150.1/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.150.1/examples/jsm/"
       }
-    </script>
+    }
+  </script>
 </head>
 <body>
-    <div class="dashboard-container">
-        <header>
-            <h1>SEC 8-K Item 1.05 Security Breach Dashboard</h1>
-            <div class="header-controls">
-                <button id="view-toggle" class="control-button">Toggle View</button>
-                <div class="search-container">
-                    <input type="text" id="search-input" placeholder="Search companies...">
-                </div>
-            </div>
-        </header>
-        
-        <div class="dashboard-grid">
-            <div class="card full-width visualization-card">
-                <h2>3D Security Breach Visualization</h2>
-                <div id="three-container" class="visualization-container">
-                    <!-- Three.js canvas will be inserted here -->
-                </div>
-                <div class="visualization-legend">
-                    <div class="legend-item">
-                        <span class="legend-color" style="background-color: #ff6b6b;"></span>
-                        <span>Recent Breaches (Last 30 Days)</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background-color: #4b7bec;"></span>
-                        <span>Older Breaches</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background-color: #2ecc71;"></span>
-                        <span>Selected Company</span>
-                    </div>
-                </div>
-                <div id="visualization-info" class="visualization-info">
-                    <p>Click on a node to see company details. Hover for basic information.</p>
-                </div>
-            </div>
-            
-            <div class="card full-width">
-                <h2>Breach Details</h2>
-                <div class="table-container">
-                    <table id="breach-table">
-                        <thead>
-                            <tr>
-                                <th>Company</th>
-                                <th>Filing Date</th>
-                                <th>Ticker</th>
-                                <th>SEC Link</th>
-                                <th>CIK</th>
-                            </tr>
-                        </thead>
-                        <tbody id="breach-table-body">
-                            <!-- Data will be inserted here -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+    <header class="dashboard-header">
+        <div class="header-title">
+          <h1 class="site-name">BreachBoard</h1>
+          <span class="site-tagline">Real-time SEC data breach insights</span>
         </div>
+      
+        <div class="header-controls">
+          <button id="view-toggle" class="control-button">Toggle View</button>
+          <input type="text" id="search-input" placeholder="Search companies..." />
+        </div>
+      
+        <div class="header-right">
+          <p id="last-updated" class="timestamp">Last updated: just now</p>
+        </div>
+      </header>
+      
+  
+
+    <div class="dashboard-layout">
+      <div class="visualization card">
+        <h2>3D Breach Visualization</h2>
+        <div id="three-container" class="visualization-container"></div>
+        <div class="visualization-legend">
+          <div class="legend-item"><span class="legend-color" style="background-color: #ff6b6b;"></span><span>Recent</span></div>
+          <div class="legend-item"><span class="legend-color" style="background-color: #4b7bec;"></span><span>Older</span></div>
+          <div class="legend-item"><span class="legend-color" style="background-color: #2ecc71;"></span><span>Selected</span></div>
+        </div>
+        <div id="visualization-info" class="visualization-info">
+          <p>Click a node for details. Hover for summary insight.</p>
+        </div>
+      </div>
+
+      <div class="chart1 card">
+        <h2>Breach Volume Over Time</h2>
+        <canvas id="chart-volume"></canvas>
+      </div>
+
+      <div class="chart2 card">
+        <h2>Top 10 Breached Companies by Ticker</h2>
+        <canvas id="chart-2"></canvas>
+      </div>
+
+      <div class="chart3 card">
+        <h2>Common Breach Types (Tagged from AI Summaries)</h2>
+        <canvas id="chart-3"></canvas>
+      </div>
+
+      <div class="chart4 card">
+        <h2>Breach Types Over Time</h2>
+        <canvas id="chart-4"></canvas>
+      </div>
+
+      <div class="table card full-width">
+        <h2>Breach Summaries</h2>
+        <div class="table-container">
+          <table id="breach-table">
+            <thead>
+              <tr>
+                <th>Company</th>
+                <th>Date</th>
+                <th>Ticker</th>
+                <th>Summary</th>
+                <th>Link</th>
+              </tr>
+            </thead>
+            <tbody id="breach-table-body"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
-    
-    <script src="data.js" type="module"></script>
-    <script src="three-visualization.js" type="module"></script>
+  </div>
+
+  <button id="refresh-data-btn">🔄 Refresh Data</button>
+
+  <script src="data.js" type="module"></script>
+  <script src="three-visualization.js" type="module"></script>
 </body>
 </html>
-

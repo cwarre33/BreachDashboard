@@ -1,16 +1,22 @@
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const cors = require('cors');
+require('dotenv').config();
+const { exec } = require("child_process");
+
 
 const app = express();
 const PORT = 3000;
 require('dotenv').config();
 
-const MONGODB_URI = 'mongodb://localhost:27017';
+const MONGODB_URI = process.env.MONGODB_URI;
 const DB_NAME = process.env.DB_NAME 
 const COLLECTION_NAME = process.env.COLLECTION_NAME;
 
 app.use(cors());
+const path = require('path');
+app.use(express.static(path.join(__dirname)));
+
 
 async function fetchFilings() {
     const client = new MongoClient(MONGODB_URI);
@@ -26,7 +32,24 @@ async function fetchFilings() {
         await client.close();
     }
 }
-
+app.post("/api/refresh", async (req, res) => {
+    exec("node ./sec-data-fetcher.js", (error, stdout, stderr) => {
+      if (error) {
+        console.error("❌ Error refreshing data:", error.message);
+        return res.status(500).json({ success: false, error: error.message });
+      }
+      console.log("✅ SEC data refreshed");
+      console.log("STDOUT:", stdout);
+      console.log("STDERR:", stderr);
+      res.json({ success: true });
+    });
+  });
+  
+  
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+  });
+  
 // API endpoint to get filings
 app.get('/api/filings', async (req, res) => {
     try {
@@ -37,6 +60,7 @@ app.get('/api/filings', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
