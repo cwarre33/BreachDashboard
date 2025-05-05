@@ -6,7 +6,7 @@ Breach Dashboard is a web application that visualizes security breach data using
 
 ## Live Demo
 
-You can access the live application at: [Breach Dashboard](https://sec-breach-dashboard-cejoxe4uk-cwarre33s-projects.vercel.app/)
+You can access the live application at: [Breach Dashboard]([https://sec-breach-dashboard-cejoxe4uk-cwarre33s-projects.vercel.app/](https://breachdashboard.online/))
 
 ## Prerequisites
 
