@@ -11,13 +11,10 @@ const SEC_API_ENDPOINT = 'https://api.sec-api.io';
 const DB_NAME = process.env.DB_NAME;
 const COLLECTION_NAME = process.env.COLLECTION_NAME;
 
-// MongoDB client
-const client = new MongoClient(MONGODB_URI, {
-  serverSelectionTimeoutMS: 5000
-});
-
-// GROQ client
-const groq = new Groq({ apiKey: GROQ_API_KEY });
+// Helper to create GROQ client lazily
+function createGroqClient() {
+  return new Groq({ apiKey: GROQ_API_KEY });
+}
 
 // Fetch SEC filings
 async function fetchSecData(fromIndex = 0, size = 50) {
@@ -39,6 +36,7 @@ async function fetchSecData(fromIndex = 0, size = 50) {
 
 // Summarize using GROQ
 async function generateSummary(filing) {
+  const groq = createGroqClient();
   const prompt = `
 You are a professional summarizer.
 Read this SEC 8-K Item 1.05 cybersecurity breach filing and produce a single, concise paragraph that covers:
@@ -80,6 +78,9 @@ function processFilingData(filing) {
 
 // Main logic
 async function fetchAndStoreData(batchSize = 50, maxResults = 500) {
+  const client = new MongoClient(MONGODB_URI, {
+      serverSelectionTimeoutMS: 5000
+    });
   try {
     console.log("Connecting to MongoDB...");
     await client.connect();
@@ -138,5 +139,14 @@ async function fetchAndStoreData(batchSize = 50, maxResults = 500) {
   }
 }
 
-// Run it
-fetchAndStoreData(50, 100); // reduce maxResults while testing
+module.exports = {
+  fetchSecData,
+  generateSummary,
+  processFilingData,
+  fetchAndStoreData,
+};
+
+// Run script only when executed directly
+if (require.main === module) {
+  fetchAndStoreData(50, 100); // reduce maxResults while testing
+}
