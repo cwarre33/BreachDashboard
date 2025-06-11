@@ -38,15 +38,15 @@ The SEC Breach Dashboard allows users to:
 ## 📁 Folder Structure
 ```
 .
-├── client/               # React frontend
-├── server/               # Express backend
-│   ├── routes/
-│   ├── models/
-│   ├── controllers/
-│   └── services/
-├── public/               # Static files
-├── .env                  # Environment variables (not pushed)
-└── README.md
+├── index.html              # Dashboard UI
+├── server.js               # Express server
+├── sec-data-fetcher.js     # Fetches SEC data and generates summaries
+├── styles.css              # Site styles
+├── three-visualization.js  # 3D visualization helper
+├── data.js                 # Example data
+├── fallbackData.json       # Fallback dataset
+├── package.json            # Project configuration
+└── .env                    # Environment variables (not committed)
 ```
 
 ## 🧪 How to Run Locally
@@ -59,21 +59,28 @@ cd BreachDashboard
 2. Install dependencies:
 ```bash
 npm install
-cd client && npm install
 ```
 
-3. Add `.env` file with:
+3. Create a `.env` file containing:
 ```
-MONGO_URI=your_mongodb_uri
-GROQ_API_KEY=your_groq_api_key
+MONGODB_URI=<your_mongodb_uri>
+DB_NAME=<database_name>
+COLLECTION_NAME=<collection_name>
+SEC_API_KEY=<sec_api_key>
+GROQ_API_KEY=<groq_api_key>
 ```
 
-4. Run the server:
+4. (Optional) Fetch the latest filings:
 ```bash
-npm run dev
+npm run fetch-data
 ```
 
-5. Visit `http://localhost:3000`
+5. Start the server:
+```bash
+node server.js
+```
+
+6. Visit `http://localhost:3000`
 
 
 ## 👥 Contributors
